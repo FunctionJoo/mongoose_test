@@ -16,7 +16,7 @@ db.once('open', function(){
     console.log("Connected to mongod server");
 });
 
-mongoose.connect('mongodb://localhost/mongodb_tutorial');
+mongoose.connect('localhost:27017/cplog-db');
 
 // DEFINE MODEL
 var Book = require('./models/book');

@@ -1,15 +1,15 @@
 module.exports = function(app, Book)
 {
-    // GET ALL BOOKS
-    app.get('/api/books', function(req,res){
-        Book.find(function(err, books){
+    // GET ALL character
+    app.get('/api/character', function(req,res){
+        Book.find(function(err, character){
             if(err) return res.status(500).send({error: 'database failure'});
-            res.json(books);
+            res.json(character);
         })
     });
 
     // GET SINGLE BOOK
-    app.get('/api/books/:book_id', function(req, res){
+    app.get('/api/character/:book_id', function(req, res){
         Book.findOne({_id: req.params.book_id}, function(err, book){
             if(err) return res.status(500).json({error: err});
             if(!book) return res.status(404).json({error: 'book not found'});
@@ -18,20 +18,20 @@ module.exports = function(app, Book)
     });
 
     // GET BOOK BY AUTHOR
-    app.get('/api/books/author/:author', function(req, res){
-        Book.find({author: req.params.author}, {_id: 0, title: 1, published_date: 1},  function(err, books){
+    app.get('/api/character/author/:author', function(req, res){
+        Book.find({author: req.params.author}, {_id: 0, title: 1, published_date: 1},  function(err, character){
             if(err) return res.status(500).json({error: err});
-            if(books.length === 0) return res.status(404).json({error: 'book not found'});
-            res.json(books);
+            if(character.length === 0) return res.status(404).json({error: 'book not found'});
+            res.json(character);
         })
     });
 
     // CREATE BOOK
-    app.post('/api/books', function(req, res){
+    app.post('/api/character', function(req, res){
         var book = new Book();
         book.title = req.body.title;
         book.author = req.body.author;
-        book.published_date = new Date(req.body.published_date);
+        //book.published_date = new Date(req.body.published_date);
 
         book.save(function(err){
             if(err){
@@ -46,7 +46,7 @@ module.exports = function(app, Book)
     });
 
     // UPDATE THE BOOK
-    app.put('/api/books/:book_id', function(req, res){
+    app.put('/api/character/:book_id', function(req, res){
         Book.update({ _id: req.params.book_id }, { $set: req.body }, function(err, output){
             if(err) res.status(500).json({ error: 'database failure' });
             console.log(output);
@@ -72,7 +72,7 @@ module.exports = function(app, Book)
     });
 
     // DELETE BOOK
-    app.delete('/api/books/:book_id', function(req, res){
+    app.delete('/api/character/:book_id', function(req, res){
         Book.remove({ _id: req.params.book_id }, function(err, output){
             if(err) return res.status(500).json({ error: "database failure" });
 
